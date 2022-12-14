@@ -10,8 +10,10 @@ package praktikumpwslima.wwebservicelima;
  * @author Aqyla-PC
  */
 class Product {
-    private String id;
+   private String id;
    private String name;
+   private String harga;
+   private int jumlah;
 
    public String getId() {
       return id;
@@ -25,5 +27,17 @@ class Product {
    public void setName(String name) {
       this.name = name;
    }
-    
+   public String  getHarga(){
+       return harga;
+   }
+   
+   public void setHarga(String harga) {
+      this.harga = harga;
+   }
+   public int getJumlah(){
+       return jumlah;
+   }
+   public void setJumlah(int Jumlah) {
+      this.jumlah = Jumlah;
+   }
 }

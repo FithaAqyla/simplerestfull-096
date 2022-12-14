@@ -28,6 +28,8 @@ public class Controller {
       //mengisi data pada model
       honey.setId("1");
       honey.setName("Honey");
+      honey.setHarga("20.000");
+      honey.setJumlah(3);
       //untuk memasukan data lewat HashMap ke model
       productRepo.put(honey.getId(), honey);
       
@@ -35,13 +37,18 @@ public class Controller {
       Product almond = new Product();
       almond.setId("2");
       almond.setName("Almond");
+      almond.setHarga("10.000");
+      almond.setJumlah(1);
       productRepo.put(almond.getId(), almond);
    }
    //untuk hapus data
    //RequestMapping berfungsi untuk menandakan atau menentukan url yang akan di pakai
    @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
    //
-   public ResponseEntity<Object> delete(@PathVariable("id") String id) { 
+   public ResponseEntity<Object> delete(@PathVariable("id") String id) {
+       if (!productRepo.containsKey(id)){
+       return new ResponseEntity<>("Product cloud  not be found ", HttpStatus.NOT_FOUND);
+   }
        //untuk menghapus data menggunakan HashMap
       productRepo.remove(id);
       //untuk menampilkan pesan ketika delete berhasil
@@ -50,8 +57,12 @@ public class Controller {
    //untuk mengupdate data. caranya dengan menambahkan id data yang ingin dihapus pada url
    @RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
    public ResponseEntity<Object> updateProduct(@PathVariable("id") String id, @RequestBody Product product) { 
-      //untuk menghapus data menggunakan HashMap4
-      productRepo.remove(id);
+    if (!productRepo.containsKey(product.getId())){
+       return new ResponseEntity<>("Product cloud  not be found ", HttpStatus.NOT_FOUND);
+   }  
+    //untuk menghapus data menggunakan HashMap4
+    
+    productRepo.remove(id);
       //untuk menambahkan id baru
       product.setId(id);
       //untuk mengupdate data 
@@ -62,6 +73,9 @@ public class Controller {
    //membuat data baru 
    @RequestMapping(value = "/products", method = RequestMethod.POST)
    public ResponseEntity<Object> createProduct(@RequestBody Product product) {
+       if (!productRepo.containsKey(product.getId())){
+       return new ResponseEntity<>("Product cloud  not be found ", HttpStatus.NOT_FOUND);
+   }  
       //untuk menambahkan data melalui HashMap yang beisi data dari model
       productRepo.put(product.getId(), product);
       //menampilkan pesan jika data berhasil di tambahkan
